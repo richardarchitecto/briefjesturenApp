@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/ionic.css">
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+        <meta name="msapplication-tap-highlight" content="no" />
+        <title>BriefjeSturen</title>
+          <script type="text/javascript" src="js/jspdf.js"></script>
+          
+        
+     <script type="text/javascript" src="js/jspdf.plugin.split_text_to_size.js"></script>
+  <script type="text/javascript" src="js/FileSaver.min.js"></script>
+ 
+    </head>
+    <body ng-app="briefjesturen" ng-controller="briefCtrl">
+<ion-tabs class="tabs-positive tabs-icon-only">
+
+  <ion-tab title="Home" icon-on="ion-ios7-home" icon-off="ion-ios7-home-outline" >
+ 
+
+
+   
+
+   <ion-content has-tabs="true">
+   
+<div class="row">
+  <div class="col">
+
+<img src="css/appIcon.png" style="width:100%; height:100%; " />
+
+    <p>
+Briefjesturen is de makkelijkste manier om een briefje te sturen:
+</p>
+<p>
+<ol>
+    <li>1. Schrijf je brief in deze app</li>
+    <li>2. Vul de gegevens in van de afzender</li>
+    <li>3. Exporteer de brief als PDF, of verstuur direct!</li>
+
+
+</ol>
+</p>
+
+</div></div>
+
+
+
+</ion-content>
+  </ion-tab>
+
+  <ion-tab title="Schrijf je brief" icon-on="ion-ios7-paper" icon-off="ion-ios7-paper-outline">
+   <div class="bar bar-header bar-positive"><h1 class="title">Schrijf je brief</h1></div>
+
+   <ion-content class="has-header">
+
+<div class="row">
+  <div class="col">
+    <label class="item item-input item-floating-label">
+    <span class="input-label">Schrijf hier je brief</span>
+    <textarea placeholder="Schrijf hier je brief" rows="29" id="briefTekst" ng-model="brief.tekst" ></textarea>
+
+  </label>
+
+
+
+</div></div>
+
+</ion-content>
+  </ion-tab>
+
+  <ion-tab title="Geadresseerde" icon-on="ion-ios7-email" icon-off="ion-ios7-email-outline">
+ <div class="bar bar-header bar-positive"><h1 class="title">Naar wie gaat de brief?</h1></div>
+  <ion-content class="has-header">
+  <div class="row">
+  <div class="col">
+<div class="list">
+  <label class="item item-input item-floating-label">
+    <span class="input-label">Aan</span>
+    <input type="text" placeholder="Aan" ng-model="brief.adres.aan">
+  </label>
+  <label class="item item-input item-floating-label">
+    <span class="input-label">Straat &amp; huisnummer</span>
+    <input type="text" placeholder="Straat &amp; huisnummer" ng-model="brief.adres.straat">
+  </label>
+  <label class="item item-input item-floating-label">
+    <span class="input-label">Postcode</span>
+    <input type="text" placeholder="Postcode" ng-model="brief.adres.postcode">
+  </label>
+    <label class="item item-input item-floating-label">
+    <span class="input-label">Stad</span>
+    <input type="text" placeholder="Stad" ng-model="brief.adres.stad">
+  </label>
+   <label class="item item-input item-floating-label">
+    <span class="input-label">Land</span>
+    <input type="text" placeholder="Land" value="Nederland" disabled="disabled">
+  </label>
+</div>
+ 
+
+</div></div>
+</ion-content>
+  </ion-tab>
+  <ion-tab title="Afzender" icon-on="ion-ios7-personadd" icon-off="ion-ios7-personadd-outline">
+
+
+<div class="bar bar-header bar-positive"><h1 class="title">Wie is de afzender?</h1></div>
+  <ion-content class="has-header">
+
+
+<div class="row">
+  <div class="col">
+<ul class="list">
+
+  <li class="item item-toggle">
+     Ik wil geen afzender invullen
+     <label class="toggle toggle-assertive">
+       <input type="checkbox" ng-model="afzenderCheck">
+       <div class="track">
+         <div class="handle"></div>
+       </div>
+     </label>
+  </li>
+
+
+</ul>
+
+<div class="list" id="afzenderDetails" ng-hide="afzenderCheck">
+  <label class="item item-input item-floating-label">
+    <span class="input-label">Van</span>
+    <input type="text" placeholder="Van" ng-model="brief.afzender.aan">
+  </label>
+  <label class="item item-input item-floating-label">
+    <span class="input-label">Straat &amp; huisnummer</span>
+    <input type="text" placeholder="Straat &amp; huisnummer" ng-model="brief.afzender.straat">
+  </label>
+  <label class="item item-input item-floating-label">
+    <span class="input-label">Postcode</span>
+    <input type="text" placeholder="Postcode" ng-model="brief.afzender.postcode">
+  </label>
+    <label class="item item-input item-floating-label">
+    <span class="input-label">Stad</span>
+    <input type="text" placeholder="Stad" ng-model="brief.afzender.stad">
+  </label>
+   <label class="item item-input item-floating-label">
+    <span class="input-label">Land</span>
+    <input type="text" placeholder="Land" value="Nederland" ng-model="brief.afzender.land">
+  </label>
+</div>
+
+</div></div>
+</ion-content>
+  </ion-tab>
+
+
+<ion-tab title="Jouw briefje" icon-on="ion-ios7-paperplane" icon-off="ion-ios7-paperplane-outline">
+
+
+<div class="bar bar-header bar-positive"><h1 class="title">Jouw Briefje</h1></div>
+  <ion-content class="has-header">
+
+  <div class="row">
+  <div class="col">
+
+  <p>
+    <br/>
+  <!-- <button class="button button-full button-energized icon ion-ios7-eye" ng-click="preview();">
+    Bekijk jouw briefje
+  </button> -->
+  <br/>
+  
+  <button class="button button-full button-assertive icon ion-document" ng-click="pdf(brief)">
+    Sla op als PDF
+  </button>
+  <br/>
+  <!-- <button class="button button-full button-balanced icon ion-ios7-paperplane" ng-click="briefjesturen()">
+    Verstuur direct via Briefje Sturen.nl
+  </button> -->
+  </p>
+
+  </div></div>
+</ion-content></ion-tab>
+
+</ion-tabs>
+
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/ionic.bundle.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+          
+
+     
+<script id="my-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">Verstuur met Briefjesturen.nl</h1>
+    </ion-header-bar>
+    <ion-content>
+    <div>
+Je brief is klaar om te versturen met BriefjeSturen.nl. 
+    </div>
+  <button class="button button-full button-balanced icon ion-ios7-paperplane" ng-click="closeModal()">
+    Sluiten
+  </button>
+
+    </ion-content>
+  </ion-modal-view>
+</script>
+    </body>
+</html>
